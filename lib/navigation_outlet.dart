@@ -1,12 +1,9 @@
+import 'package:ctwebdev2023_tasks/ctwebdev2023_tasks.dart';
+import 'package:ctwebdev2023_time_tracking/ctwebdev2023_time_tracking.dart';
 import 'package:flutter/material.dart';
 
-import 'tasks/repository/task_repository.dart';
-import 'tasks/widgets/tasks_list.dart';
-import 'time_tracking/repository/time_tracking_repository.dart';
-import 'time_tracking/widgets/time_tracking_list.dart';
-
-final _taskRepository = TaskRepository();
-final _timeTrackingRepository = TimeTrackingRepository();
+final _taskRepository = InMemoryTaskRepository();
+final _timeTrackingRepository = InMemoryTimeTrackingRepository();
 
 class NavigationOutlet extends StatefulWidget {
   final String? routeName;

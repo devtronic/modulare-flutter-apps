@@ -1,6 +1,5 @@
+import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
 import 'package:flutter/material.dart';
-
-import '../dto/task.dart';
 
 class DeleteTaskDialog extends StatelessWidget {
   final Task task;

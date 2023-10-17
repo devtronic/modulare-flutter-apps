@@ -1,0 +1,27 @@
+name: ctwebdev2023_time_tracking
+description: Time Tracking Modul
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  ctwebdev2023_shared:
+    path: '../shared'
+  ctwebdev2023_tasks_public:
+    path: '../tasks_public'
+  rxdart: ^0.27.7
+  reactive_forms: ^16.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true

@@ -1,5 +1,4 @@
-import '../../tasks/dto/task.dart';
-import 'time_tracking_entry.dart';
+import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
 
 class TimeTrackingListEntry {
   final TimeTrackingEntry entry;

@@ -1,11 +1,9 @@
 import 'dart:math';
 
+import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../tasks/dto/task.dart';
-import '../dto/time_tracking_entry.dart';
-
-class TimeTrackingRepository {
+class InMemoryTimeTrackingRepository implements TimeTrackingRepository {
   final _entries$ = BehaviorSubject<List<TimeTrackingEntry>>()
     ..add([
       TimeTrackingEntry(
@@ -17,8 +15,10 @@ class TimeTrackingRepository {
       )
     ]);
 
+  @override
   late final Stream<List<TimeTrackingEntry>> entries$ = _entries$;
 
+  @override
   void startTimeTracking(Task task) {
     var entry = TimeTrackingEntry(
       id: _getNewId(),
@@ -39,6 +39,7 @@ class TimeTrackingRepository {
     return _entries$.value.map((e) => e.id).reduce(max) + 1;
   }
 
+  @override
   void stopTimeTracking(TimeTrackingEntry entry) {
     var newEntries = [..._entries$.value];
     entry.endedAt = DateTime.now();
@@ -51,6 +52,7 @@ class TimeTrackingRepository {
     _entries$.add(newEntries);
   }
 
+  @override
   void delete(TimeTrackingEntry entry) {
     var newEntries = [..._entries$.value];
     var index = newEntries.indexWhere((e) => e.id == entry.id);

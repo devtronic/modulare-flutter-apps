@@ -1,9 +1,8 @@
+import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
+import 'package:ctwebdev2023_tasks_public/ctwebdev2023_tasks_public.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-import '../dto/task.dart';
-import '../repository/task_repository.dart';
-import 'edit_task_dialog.dart';
 
 class SelectTaskDialog extends StatelessWidget {
   final TaskRepository taskRepository;

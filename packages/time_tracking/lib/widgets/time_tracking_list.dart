@@ -1,16 +1,13 @@
 import 'dart:async';
 
+import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
+import 'package:ctwebdev2023_time_tracking/widgets/select_task_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../tasks/dto/task.dart';
-import '../../tasks/repository/task_repository.dart';
-import '../../tasks/widgets/select_task_dialog.dart';
-import '../dto/time_tracking_entry.dart';
 import '../dto/time_tracking_list_entry.dart';
-import '../repository/time_tracking_repository.dart';
-import '../widgets/delete_time_tracking_entry_dialog.dart';
-import '../widgets/time_tracking_list_tile.dart';
+import 'delete_time_tracking_entry_dialog.dart';
+import 'time_tracking_list_tile.dart';
 
 class TimeTrackingList extends StatelessWidget {
   final TimeTrackingRepository _timeTrackingRepository;

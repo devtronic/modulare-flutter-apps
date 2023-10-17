@@ -1,15 +1,15 @@
 import 'dart:math';
 
+import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../dto/task.dart';
-
-class TaskRepository {
+class InMemoryTaskRepository implements TaskRepository {
   final _tasks$ = BehaviorSubject<List<Task>>()..add([]);
 
+  @override
   late final Stream<List<Task>> tasks$ = _tasks$;
 
-  TaskRepository() {
+  InMemoryTaskRepository() {
     _tasks$.add([
       Task(
         id: 1,
@@ -31,6 +31,7 @@ class TaskRepository {
     ]);
   }
 
+  @override
   void updateTaskState(Task task, bool isDone) {
     var newTasks = [..._tasks$.value];
     var index = newTasks.indexWhere((t) => t.id == task.id);
@@ -47,6 +48,7 @@ class TaskRepository {
     _tasks$.add(newTasks);
   }
 
+  @override
   void save(Task task) {
     var newTasks = [..._tasks$.value];
     if (task.id <= 0) {
@@ -65,6 +67,7 @@ class TaskRepository {
     _tasks$.add(newTasks);
   }
 
+  @override
   void delete(Task task) {
     var newTasks = [..._tasks$.value];
     var index = newTasks.indexWhere((t) => t.id == task.id);

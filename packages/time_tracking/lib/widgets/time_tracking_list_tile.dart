@@ -1,9 +1,8 @@
 import 'dart:async';
 
+import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
 import 'package:flutter/material.dart';
 
-import '../../helper.dart';
-import '../dto/time_tracking_entry.dart';
 import '../dto/time_tracking_list_entry.dart';
 
 class TimeTrackingListTile extends StatelessWidget {

@@ -41,6 +41,34 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.2"
+  ctwebdev2023_shared:
+    dependency: "direct main"
+    description:
+      path: "packages/shared"
+      relative: true
+    source: path
+    version: "1.0.0+1"
+  ctwebdev2023_tasks:
+    dependency: "direct main"
+    description:
+      path: "packages/tasks"
+      relative: true
+    source: path
+    version: "1.0.0+1"
+  ctwebdev2023_tasks_public:
+    dependency: transitive
+    description:
+      path: "packages/tasks_public"
+      relative: true
+    source: path
+    version: "1.0.0+1"
+  ctwebdev2023_time_tracking:
+    dependency: "direct main"
+    description:
+      path: "packages/time_tracking"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -124,7 +152,7 @@ packages:
     source: hosted
     version: "1.8.3"
   reactive_forms:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: reactive_forms
       sha256: "74f221052d43ba2f0661e7fda4177ed219fc3aa1fc613c9d981690e51156b418"

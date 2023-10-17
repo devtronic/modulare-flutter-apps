@@ -1,6 +1,6 @@
+import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
 import 'package:flutter/material.dart';
 
-import '../../helper.dart';
 import '../dto/task_list_entry.dart';
 
 class TaskListTile extends StatelessWidget {

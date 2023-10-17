@@ -1,13 +1,10 @@
+import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
+import 'package:ctwebdev2023_tasks_public/ctwebdev2023_tasks_public.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../time_tracking/dto/time_tracking_entry.dart';
-import '../../time_tracking/repository/time_tracking_repository.dart';
-import '../dto/task.dart';
 import '../dto/task_list_entry.dart';
-import '../repository/task_repository.dart';
 import 'delete_task_dialog.dart';
-import 'edit_task_dialog.dart';
 import 'task_list_tile.dart';
 
 class TasksList extends StatelessWidget {
