@@ -21,6 +21,9 @@ dependencies:
   ctwebdev2023_time_tracking:
     path: 'packages/time_tracking'
 
+  ctwebdev2023_reporting:
+    path: 'packages/reporting'
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

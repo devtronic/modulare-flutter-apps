@@ -1,14 +1,16 @@
-import 'package:ctwebdev2023_tasks/ctwebdev2023_tasks.dart';
-import 'package:ctwebdev2023_time_tracking/ctwebdev2023_time_tracking.dart';
+import 'package:ctwebdev2023/service/modulith_route_generator.dart';
 import 'package:flutter/material.dart';
-
-final _taskRepository = InMemoryTaskRepository();
-final _timeTrackingRepository = InMemoryTimeTrackingRepository();
 
 class NavigationOutlet extends StatefulWidget {
   final String? routeName;
 
-  const NavigationOutlet({this.routeName, super.key});
+  final ModulithRouteGenerator routeGenerator;
+
+  const NavigationOutlet({
+    this.routeName,
+    super.key,
+    required this.routeGenerator,
+  });
 
   @override
   State<NavigationOutlet> createState() {
@@ -22,29 +24,19 @@ class _NavigationOutletState extends State<NavigationOutlet> {
 
   int screenIndex = 0;
 
-  static const _destinations = [
-    NavigationRailDestination(
-      label: Text('Aufgaben'),
-      icon: Icon(Icons.task_alt_outlined),
-      selectedIcon: Icon(Icons.task_alt),
-    ),
-    NavigationRailDestination(
-      label: Text('Zeiterfassung'),
-      icon: Icon(Icons.timer_outlined),
-      selectedIcon: Icon(Icons.timer),
-    ),
-    NavigationRailDestination(
-      label: Text('Auswertung'),
-      icon: Icon(Icons.assessment_outlined),
-      selectedIcon: Icon(Icons.assessment),
-    ),
-  ];
+  final List<NavigationRailDestination> _destinations = [];
 
-  static const _routes = ['tasks', 'time-tracking', 'reporting'];
+  final List<String> _routes = [];
 
   @override
   void initState() {
     super.initState();
+    _routes
+      ..clear()
+      ..addAll(widget.routeGenerator.routes);
+    _destinations
+      ..clear()
+      ..addAll(widget.routeGenerator.destinations);
     screenIndex = _routes.indexOf(widget.routeName ?? _routes[0]);
   }
 
@@ -70,27 +62,7 @@ class _NavigationOutletState extends State<NavigationOutlet> {
     return Expanded(
       child: Navigator(
         key: navigatorKey,
-        onGenerateRoute: (RouteSettings settings) {
-          WidgetBuilder builder = (ctx) {
-            return const Center(child: Text('Missing Route'));
-          };
-
-          if (widget.routeName == null || widget.routeName == 'tasks') {
-            builder = (ctx) => TasksList(
-                  taskRepository: _taskRepository,
-                  timeTrackingRepository: _timeTrackingRepository,
-                );
-          } else if (widget.routeName == 'time-tracking') {
-            builder = (ctx) => TimeTrackingList(
-                  timeTrackingRepository: _timeTrackingRepository,
-                  taskRepository: _taskRepository,
-                );
-          }
-          return MaterialPageRoute<void>(
-            builder: builder,
-            settings: settings,
-          );
-        },
+        onGenerateRoute: widget.routeGenerator.buildRouteFactory(widget.routeName),
       ),
     );
   }
