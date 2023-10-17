@@ -1,13 +1,16 @@
-import 'package:ctwebdev2023/service/modulith_route_generator.dart';
+import 'package:catalyst_builder/catalyst_builder.dart';
 import 'package:flutter/material.dart';
 
+import 'service/modulith_route_generator.dart';
+
+@Service(lifetime: ServiceLifetime.transient)
 class NavigationOutlet extends StatefulWidget {
   final String? routeName;
 
   final ModulithRouteGenerator routeGenerator;
 
   const NavigationOutlet({
-    this.routeName,
+    @Inject(parameter: 'routeName') this.routeName,
     super.key,
     required this.routeGenerator,
   });
@@ -62,7 +65,9 @@ class _NavigationOutletState extends State<NavigationOutlet> {
     return Expanded(
       child: Navigator(
         key: navigatorKey,
-        onGenerateRoute: widget.routeGenerator.buildRouteFactory(widget.routeName),
+        onGenerateRoute: widget.routeGenerator.buildRouteFactory(
+          widget.routeName,
+        ),
       ),
     );
   }

@@ -1,8 +1,13 @@
 import 'dart:math';
 
+import 'package:catalyst_builder/catalyst_builder.dart';
 import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
 import 'package:rxdart/rxdart.dart';
 
+@Service(
+  lifetime: ServiceLifetime.singleton,
+  exposeAs: TaskRepository,
+)
 class InMemoryTaskRepository implements TaskRepository {
   final _tasks$ = BehaviorSubject<List<Task>>()..add([]);
 

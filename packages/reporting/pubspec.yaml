@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   ctwebdev2023_shared:
     path: '../shared'
+  catalyst_builder: ^3.5.0
 
 dev_dependencies:
   flutter_test:

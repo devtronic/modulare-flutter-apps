@@ -1,32 +1,6 @@
 library ctwebdev2023_time_tracking;
 
-import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
-import 'package:flutter/material.dart';
-
-import 'widgets/time_tracking_list.dart';
-
-export 'widgets/time_tracking_list.dart';
 export 'repository/in_memory_time_tracking_repository.dart';
+export 'time_tracking_module.dart';
+export 'widgets/time_tracking_list.dart';
 
-void bootstrapTimeTracking(
-  RouteRegistry registry,
-  TaskRepository taskRepository,
-  TimeTrackingRepository timeTrackingRepository,
-) {
-  registry.add(
-    RoutingEntry(
-      priority: 2,
-      route: 'time-tracking',
-      destination: const NavigationRailDestination(
-        label: Text('Zeiterfassung'),
-        icon: Icon(Icons.timer_outlined),
-        selectedIcon: Icon(Icons.timer),
-      ),
-      canActivate: (_, route) => route == 'time-tracking',
-      builder: (ctx) => TimeTrackingList(
-        timeTrackingRepository: timeTrackingRepository,
-        taskRepository: taskRepository,
-      ),
-    ),
-  );
-}

@@ -1,43 +1,40 @@
-import 'package:ctwebdev2023/service/modulith_route_generator.dart';
-import 'package:ctwebdev2023_reporting/ctwebdev2023_reporting.dart';
-import 'package:ctwebdev2023_tasks/ctwebdev2023_tasks.dart';
-import 'package:ctwebdev2023_time_tracking/ctwebdev2023_time_tracking.dart';
+import 'package:catalyst_builder/catalyst_builder.dart';
 import 'package:flutter/material.dart';
 
+import 'main.catalyst_builder.g.dart';
 import 'navigation_outlet.dart';
+import 'service/modulith_route_generator.dart';
 
+/**
+ * Export the catalyst_exports that the watch command can recompile the
+ * ServiceProvider when the dependencies changes.
+ */
+export 'relative_deps_exports.dart';
+
+@GenerateServiceProvider()
 void main() {
-  var generator = _setupModulith();
+  var serviceContainer = DefaultServiceProvider();
 
+  serviceContainer.register<ServiceProvider>((p0) => serviceContainer);
+
+  serviceContainer.boot();
+
+  serviceContainer.resolve<ModulithRouteGenerator>().assemble();
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true),
-      home: NavigationOutlet(routeGenerator: generator),
+      home: serviceContainer.resolve<NavigationOutlet>(),
       onGenerateRoute: (RouteSettings settings) {
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            return NavigationOutlet(
-              routeName: settings.name,
-              routeGenerator: generator,
-            );
+            return serviceContainer.enhance(
+              parameters: {'routeName': settings.name},
+            ).resolve<NavigationOutlet>();
           },
           settings: settings,
         );
       },
     ),
   );
-}
-
-ModulithRouteGenerator _setupModulith() {
-  final generator = ModulithRouteGenerator();
-  final taskRepository = InMemoryTaskRepository();
-  final timeTrackingRepository = InMemoryTimeTrackingRepository();
-
-  bootstrapTimeTracking(generator, taskRepository, timeTrackingRepository);
-  bootstrapTasks(generator, taskRepository, timeTrackingRepository);
-  bootstrapReporting(generator, taskRepository, timeTrackingRepository);
-
-  generator.assemble();
-  return generator;
 }

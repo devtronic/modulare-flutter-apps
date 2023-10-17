@@ -1,6 +1,11 @@
+import 'package:catalyst_builder/catalyst_builder.dart';
 import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
 import 'package:flutter/material.dart';
 
+@Service(
+  lifetime: ServiceLifetime.singleton,
+  exposeAs: RouteRegistry
+)
 class ModulithRouteGenerator implements RouteRegistry {
   final List<NavigationRailDestination> _destinations = [];
   final List<String> _routes = [];

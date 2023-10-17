@@ -23,6 +23,8 @@ dependencies:
 
   ctwebdev2023_reporting:
     path: 'packages/reporting'
+  build_runner: ^2.4.6
+  catalyst_builder: ^3.5.0
 
 dev_dependencies:
   flutter_test:
