@@ -4,30 +4,30 @@ import '../dto/task.dart';
 import 'package:rxdart/rxdart.dart';
 
 class TaskRepository {
-  final _tasks$ = BehaviorSubject<List<Task>>();
+  final _tasks$ = BehaviorSubject<List<Task>>()..add([]);
 
   late final Stream<List<Task>> tasks$ = _tasks$;
 
   TaskRepository() {
-    _tasks$.value = [
-      // Task(
-      //   id: 1,
-      //   createdAt: DateTime.now().add(const Duration(days: 10)),
-      //   text: 'Task 1',
-      // ),
-      // Task(
-      //   id: 2,
-      //   createdAt: DateTime.now().add(const Duration(days: 12)),
-      //   text: 'Task 2',
-      //   isDone: true,
-      // ),
-      // Task(
-      //   id: 3,
-      //   createdAt: DateTime.now().add(const Duration(days: 1)),
-      //   text: 'Task 3',
-      //   isDone: false,
-      // ),
-    ];
+    _tasks$.add([
+      Task(
+        id: 1,
+        createdAt: DateTime.now().add(const Duration(days: 10)),
+        text: 'Task 1',
+      ),
+      Task(
+        id: 2,
+        createdAt: DateTime.now().add(const Duration(days: 12)),
+        text: 'Task 2',
+        isDone: true,
+      ),
+      Task(
+        id: 3,
+        createdAt: DateTime.now().add(const Duration(days: 1)),
+        text: 'Task 3',
+        isDone: false,
+      ),
+    ]);
   }
 
   void updateTaskState(Task task, bool isDone) {
@@ -43,7 +43,7 @@ class TaskRepository {
     }
     task.isDone = isDone;
     newTasks[index] = task;
-    _tasks$.value = newTasks;
+    _tasks$.add(newTasks);
   }
 
   void save(Task task) {
@@ -61,7 +61,7 @@ class TaskRepository {
       newTasks[index] = task;
     }
 
-    _tasks$.value = newTasks;
+    _tasks$.add(newTasks);
   }
 
   void delete(Task task) {
@@ -71,6 +71,6 @@ class TaskRepository {
       return;
     }
     newTasks.removeAt(index);
-    _tasks$.value = newTasks;
+    _tasks$.add(newTasks);
   }
 }

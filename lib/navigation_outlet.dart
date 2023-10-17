@@ -1,14 +1,17 @@
+import 'package:ctwebdev2023/time_tracking/repository/time_tracking_repository.dart';
+import 'package:ctwebdev2023/time_tracking/widgets/time_tracking_list.dart';
 import 'package:flutter/material.dart';
 
 import 'tasks/repository/task_repository.dart';
 import 'tasks/widgets/tasks_list.dart';
 
 final _taskRepository = TaskRepository();
+final _timeTrackingRepository = TimeTrackingRepository();
 
 class NavigationOutlet extends StatefulWidget {
   final String? routeName;
 
-  const NavigationOutlet({this.routeName = null, super.key});
+  const NavigationOutlet({this.routeName, super.key});
 
   @override
   State<NavigationOutlet> createState() {
@@ -71,11 +74,17 @@ class _NavigationOutletState extends State<NavigationOutlet> {
       child: Navigator(
         key: navigatorKey,
         onGenerateRoute: (RouteSettings settings) {
-          WidgetBuilder builder = (ctx) => const Placeholder(
-                child: Text("Missing Route"),
-              );
+          WidgetBuilder builder = (ctx) {
+            return const Center(child: Text("Missing Route"));
+          };
+
           if (widget.routeName == null || widget.routeName == 'tasks') {
             builder = (ctx) => TasksList(taskRepository: _taskRepository);
+          } else if (widget.routeName == 'time-tracking') {
+            builder = (ctx) => TimeTrackingList(
+                  timeTrackingRepository: _timeTrackingRepository,
+                  taskRepository: _taskRepository,
+                );
           }
           return MaterialPageRoute<void>(
             builder: builder,
@@ -95,10 +104,7 @@ class _NavigationOutletState extends State<NavigationOutlet> {
         selectedIndex: screenIndex,
         useIndicator: true,
         onDestinationSelected: (int index) {
-          Navigator.of(context).pushNamed(_routes[index]);
-          setState(() {
-            screenIndex = index;
-          });
+          Navigator.of(context).pushReplacementNamed(_routes[index]);
         },
       ),
     );

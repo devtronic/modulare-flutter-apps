@@ -20,9 +20,12 @@ class EditTaskDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var title = _task.id == 0
+        ? const Text("Aufgabe hinzufügen")
+        : const Text("Aufgabe bearbeiten");
     return AlertDialog(
       alignment: Alignment.center,
-      title: const Text("Aufgabe hinzufügen"),
+      title: title,
       content: _buildDialogContent(context),
       actions: _buildDialogActions(context),
     );
