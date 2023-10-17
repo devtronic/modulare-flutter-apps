@@ -25,27 +25,7 @@ class TasksList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<List<TaskListEntry>>(
-        stream: CombineLatestStream([
-          _tasksRepository.tasks$,
-          _timeTrackingRepository.entries$,
-        ], (values) {
-          var tasks = values[0].toList() as List<Task>;
-          var entries = values[1] as List<TimeTrackingEntry>;
-
-          return tasks
-              .map((task) => TaskListEntry(
-                  task: task,
-                  totalTimeSpent: entries
-                      .where((e) => e.taskId == task.id && e.endedAt != null)
-                      .fold(Duration.zero, (prev, entry) {
-                    var diff = entry.endedAt!.difference(entry.startedAt);
-                    if (diff.isNegative) {
-                      return prev;
-                    }
-                    return prev + diff;
-                  })))
-              .toList();
-        }),
+        stream: _getEntriesStream(),
         builder: (ctx, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
@@ -55,6 +35,30 @@ class TasksList extends StatelessWidget {
       ),
       floatingActionButton: _buildFloatingActionButton(context),
     );
+  }
+
+  Stream<List<TaskListEntry>> _getEntriesStream() {
+    return CombineLatestStream([
+      _tasksRepository.tasks$,
+      _timeTrackingRepository.entries$,
+    ], (values) {
+      var tasks = values[0].toList() as List<Task>;
+      var entries = values[1] as List<TimeTrackingEntry>;
+
+      return tasks
+          .map((task) => TaskListEntry(
+              task: task,
+              totalTimeSpent: entries
+                  .where((e) => e.taskId == task.id && e.endedAt != null)
+                  .fold(Duration.zero, (prev, entry) {
+                var diff = entry.endedAt!.difference(entry.startedAt);
+                if (diff.isNegative) {
+                  return prev;
+                }
+                return prev + diff;
+              })))
+          .toList();
+    });
   }
 
   Widget _buildBody(BuildContext context, List<TaskListEntry> entries) {
