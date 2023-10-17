@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:ctwebdev2023/time_tracking/widgets/delete_time_tracking_entry_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../tasks/dto/task.dart';
 import '../../tasks/repository/task_repository.dart';
 import '../../tasks/widgets/select_task_dialog.dart';
-import '../widgets/time_tracking_list_tile.dart';
 import '../dto/time_tracking_entry.dart';
 import '../repository/time_tracking_repository.dart';
+import '../widgets/delete_time_tracking_entry_dialog.dart';
+import '../widgets/time_tracking_list_tile.dart';
 
 class TimeTrackingListEntry {
   final TimeTrackingEntry entry;

@@ -1,9 +1,9 @@
-import 'package:ctwebdev2023/tasks/widgets/edit_task_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import '../dto/task.dart';
 import '../repository/task_repository.dart';
+import 'edit_task_dialog.dart';
 
 class SelectTaskDialog extends StatelessWidget {
   final TaskRepository taskRepository;
@@ -21,7 +21,7 @@ class SelectTaskDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       alignment: Alignment.center,
-      title: const Text("Aufgabe auswählen"),
+      title: const Text('Aufgabe auswählen'),
       content: _buildDialogContent(context),
       actions: _buildDialogActions(context),
     );
@@ -57,7 +57,7 @@ class SelectTaskDialog extends StatelessWidget {
                   taskRepository.save(todo);
                 }
               },
-              child: const Text("Todo anlegen"),
+              child: const Text('Todo anlegen'),
             );
           }
 

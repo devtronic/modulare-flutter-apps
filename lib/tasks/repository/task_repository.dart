@@ -1,7 +1,8 @@
 import 'dart:math';
 
-import '../dto/task.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../dto/task.dart';
 
 class TaskRepository {
   final _tasks$ = BehaviorSubject<List<Task>>()..add([]);

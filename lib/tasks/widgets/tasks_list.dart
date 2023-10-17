@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import './delete_task_dialog.dart';
-import './edit_task_dialog.dart';
-import './task_list_tile.dart';
 import '../dto/task.dart';
 import '../repository/task_repository.dart';
+import 'delete_task_dialog.dart';
+import 'edit_task_dialog.dart';
+import 'task_list_tile.dart';
 
 class TasksList extends StatelessWidget {
   final TaskRepository _tasksRepository;

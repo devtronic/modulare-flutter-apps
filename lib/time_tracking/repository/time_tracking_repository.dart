@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:ctwebdev2023/tasks/dto/task.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../tasks/dto/task.dart';
 import '../dto/time_tracking_entry.dart';
 
 class TimeTrackingRepository {
@@ -54,6 +54,5 @@ class TimeTrackingRepository {
     }
     newEntries.removeAt(index);
     _entries$.add(newEntries);
-
   }
 }

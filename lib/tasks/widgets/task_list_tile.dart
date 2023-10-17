@@ -1,5 +1,6 @@
-import 'package:ctwebdev2023/tasks/dto/task.dart';
 import 'package:flutter/material.dart';
+
+import '../dto/task.dart';
 
 class TaskListTile extends StatelessWidget {
   final Task task;

@@ -1,9 +1,9 @@
-import 'package:ctwebdev2023/time_tracking/repository/time_tracking_repository.dart';
-import 'package:ctwebdev2023/time_tracking/widgets/time_tracking_list.dart';
 import 'package:flutter/material.dart';
 
 import 'tasks/repository/task_repository.dart';
 import 'tasks/widgets/tasks_list.dart';
+import 'time_tracking/repository/time_tracking_repository.dart';
+import 'time_tracking/widgets/time_tracking_list.dart';
 
 final _taskRepository = TaskRepository();
 final _timeTrackingRepository = TimeTrackingRepository();
@@ -75,7 +75,7 @@ class _NavigationOutletState extends State<NavigationOutlet> {
         key: navigatorKey,
         onGenerateRoute: (RouteSettings settings) {
           WidgetBuilder builder = (ctx) {
-            return const Center(child: Text("Missing Route"));
+            return const Center(child: Text('Missing Route'));
           };
 
           if (widget.routeName == null || widget.routeName == 'tasks') {

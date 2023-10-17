@@ -23,7 +23,7 @@ class TimeTrackingListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(listEntry.task?.text ?? "Unbekannt"),
+      title: Text(listEntry.task?.text ?? 'Unbekannt'),
       subtitle: _buildSubtitle(listEntry.entry),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -75,7 +75,7 @@ class TimeTrackingListTile extends StatelessWidget {
     var durationString = duration.asHumanReadable();
 
     return includeEnd
-        ? "$startedAt - $endedAt ($durationString)"
-        : "$startedAt ($durationString)";
+        ? '$startedAt - $endedAt ($durationString)'
+        : '$startedAt ($durationString)';
   }
 }
