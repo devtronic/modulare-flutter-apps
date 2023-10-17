@@ -79,7 +79,10 @@ class _NavigationOutletState extends State<NavigationOutlet> {
           };
 
           if (widget.routeName == null || widget.routeName == 'tasks') {
-            builder = (ctx) => TasksList(taskRepository: _taskRepository);
+            builder = (ctx) => TasksList(
+                  taskRepository: _taskRepository,
+                  timeTrackingRepository: _timeTrackingRepository,
+                );
           } else if (widget.routeName == 'time-tracking') {
             builder = (ctx) => TimeTrackingList(
                   timeTrackingRepository: _timeTrackingRepository,

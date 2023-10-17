@@ -9,7 +9,12 @@ class TimeTrackingRepository {
   final _entries$ = BehaviorSubject<List<TimeTrackingEntry>>()
     ..add([
       TimeTrackingEntry(
-          id: 1, startedAt: DateTime.now(), endedAt: DateTime.now(), taskId: 1)
+        id: 1,
+        startedAt:
+            DateTime.now().subtract(const Duration(hours: 2, minutes: 3)),
+        endedAt: DateTime.now(),
+        taskId: 1,
+      )
     ]);
 
   late final Stream<List<TimeTrackingEntry>> entries$ = _entries$;

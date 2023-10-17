@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
+import '../../time_tracking/dto/time_tracking_entry.dart';
+import '../../time_tracking/repository/time_tracking_repository.dart';
 import '../dto/task.dart';
+import '../dto/task_list_entry.dart';
 import '../repository/task_repository.dart';
 import 'delete_task_dialog.dart';
 import 'edit_task_dialog.dart';
@@ -8,17 +12,40 @@ import 'task_list_tile.dart';
 
 class TasksList extends StatelessWidget {
   final TaskRepository _tasksRepository;
+  final TimeTrackingRepository _timeTrackingRepository;
 
   const TasksList({
     required TaskRepository taskRepository,
+    required TimeTrackingRepository timeTrackingRepository,
     super.key,
-  }) : _tasksRepository = taskRepository;
+  })  : _tasksRepository = taskRepository,
+        _timeTrackingRepository = timeTrackingRepository;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<List<Task>>(
-        stream: _tasksRepository.tasks$,
+      body: StreamBuilder<List<TaskListEntry>>(
+        stream: CombineLatestStream([
+          _tasksRepository.tasks$,
+          _timeTrackingRepository.entries$,
+        ], (values) {
+          var tasks = values[0].toList() as List<Task>;
+          var entries = values[1] as List<TimeTrackingEntry>;
+
+          return tasks
+              .map((task) => TaskListEntry(
+                  task: task,
+                  totalTimeSpent: entries
+                      .where((e) => e.taskId == task.id && e.endedAt != null)
+                      .fold(Duration.zero, (prev, entry) {
+                    var diff = entry.endedAt!.difference(entry.startedAt);
+                    if (diff.isNegative) {
+                      return prev;
+                    }
+                    return prev + diff;
+                  })))
+              .toList();
+        }),
         builder: (ctx, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
@@ -30,17 +57,18 @@ class TasksList extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(BuildContext context, List<Task> tasks) {
-    if (tasks.isEmpty) {
+  Widget _buildBody(BuildContext context, List<TaskListEntry> entries) {
+    if (entries.isEmpty) {
       return const Center(
         child: Text('Noch keine Todos vorhanden'),
       );
     }
 
     return ListView(
-      children: tasks.map((task) {
+      children: entries.map((entry) {
+        var task = entry.task;
         return TaskListTile(
-          task: task,
+          entry: entry,
           onEdit: () => _editTask(context, task),
           onDelete: () => _deleteTask(context, task),
           onUpdateTaskState: (isDone) {

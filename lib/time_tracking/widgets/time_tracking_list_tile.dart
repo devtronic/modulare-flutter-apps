@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../helper.dart';
-import '../../time_tracking/widgets/time_tracking_list.dart';
 import '../dto/time_tracking_entry.dart';
+import '../dto/time_tracking_list_entry.dart';
 
 class TimeTrackingListTile extends StatelessWidget {
   final TimeTrackingListEntry listEntry;
