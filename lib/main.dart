@@ -23,9 +23,11 @@ export 'relative_deps_exports.dart';
   )
 })
 void main() {
-  var serviceContainer = DefaultServiceProvider();
+  final serviceContainer = DefaultServiceProvider();
 
   serviceContainer.register<ServiceProvider>((p0) => serviceContainer);
+  final navigatorKey = GlobalKey<NavigatorState>();
+  serviceContainer.register<GlobalKey<NavigatorState>>((_) => navigatorKey);
 
   serviceContainer.boot();
 
@@ -34,6 +36,7 @@ void main() {
 
   runApp(
     MaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true),
       home: serviceContainer.resolve<NavigationOutlet>(),
