@@ -17,6 +17,7 @@ dependencies:
   rxdart: ^0.27.7
   reactive_forms: ^16.1.0
   catalyst_builder: ^3.5.0
+  event_dispatcher_builder: ^1.0.0
 
 dev_dependencies:
   flutter_test:
