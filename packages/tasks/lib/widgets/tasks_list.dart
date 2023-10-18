@@ -1,6 +1,5 @@
 import 'package:catalyst_builder/catalyst_builder.dart';
 import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
-import 'package:ctwebdev2023_tasks_public/ctwebdev2023_tasks_public.dart';
 import 'package:event_dispatcher_builder/event_dispatcher_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';

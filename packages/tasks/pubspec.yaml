@@ -12,8 +12,6 @@ dependencies:
     sdk: flutter
   ctwebdev2023_shared:
     path: '../shared'
-  ctwebdev2023_tasks_public:
-    path: '../tasks_public'
   rxdart: ^0.27.7
   reactive_forms: ^16.1.0
   catalyst_builder: ^3.5.0
