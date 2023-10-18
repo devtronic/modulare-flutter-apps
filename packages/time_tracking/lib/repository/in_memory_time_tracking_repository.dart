@@ -13,6 +13,7 @@ class InMemoryTimeTrackingRepository implements TimeTrackingRepository {
     ..add([
       TimeTrackingEntry(
         id: 1,
+        taskText: 'foo',
         startedAt:
             DateTime.now().subtract(const Duration(hours: 2, minutes: 3)),
         endedAt: DateTime.now(),
@@ -29,6 +30,7 @@ class InMemoryTimeTrackingRepository implements TimeTrackingRepository {
       id: _getNewId(),
       taskId: task.id,
       startedAt: DateTime.now(),
+      taskText: task.text,
     );
 
     _entries$.add([

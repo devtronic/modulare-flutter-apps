@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:catalyst_builder/catalyst_builder.dart';
 import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 
-import '../dto/time_tracking_list_entry.dart';
 import 'delete_time_tracking_entry_dialog.dart';
 import 'select_task_dialog.dart';
 import 'time_tracking_list_tile.dart';
@@ -13,42 +11,20 @@ import 'time_tracking_list_tile.dart';
 @Service(lifetime: ServiceLifetime.transient)
 class TimeTrackingList extends StatelessWidget {
   final TimeTrackingRepository _timeTrackingRepository;
-  final TaskRepository _taskRepository;
   final ServiceProvider _serviceProvider;
 
   const TimeTrackingList({
     required TimeTrackingRepository timeTrackingRepository,
-    required TaskRepository taskRepository,
     required ServiceProvider serviceProvider,
     super.key,
-  })  : _timeTrackingRepository = timeTrackingRepository,
-        _taskRepository = taskRepository,
-        _serviceProvider = serviceProvider;
+  })  : _serviceProvider = serviceProvider,
+        _timeTrackingRepository = timeTrackingRepository;
 
   @override
   Widget build(BuildContext context) {
-    var entries$ = CombineLatestStream(
-      [
-        _timeTrackingRepository.entries$.asBroadcastStream(),
-        _taskRepository.tasks$.asBroadcastStream()
-      ],
-      (values) {
-        var entries = values[0].toList() as List<TimeTrackingEntry>;
-        var tasks = values[1] as List<Task>;
-        entries.sort((a, b) => a.startedAt.isAfter(b.startedAt) ? -1 : 1);
-        return entries
-            .map(
-              (e) => TimeTrackingListEntry(
-                entry: e,
-                task: tasks.where((t) => t.id == e.taskId).firstOrNull,
-              ),
-            )
-            .toList();
-      },
-    );
     return Scaffold(
-      body: StreamBuilder<List<TimeTrackingListEntry>>(
-        stream: entries$,
+      body: StreamBuilder<List<TimeTrackingEntry>>(
+        stream: _timeTrackingRepository.entries$.asBroadcastStream(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
@@ -60,19 +36,22 @@ class TimeTrackingList extends StatelessWidget {
           return ListView(
             children: data
                 .map((e) => TimeTrackingListTile(
-                      listEntry: e,
-                      onStop: () => _onStop(e.entry),
-                      onDelete: () => _onDelete(context, e.entry),
-                      onContinue: e.task != null
-                          ? () =>
-                              _timeTrackingRepository.startTimeTracking(e.task!)
-                          : null,
+                      entry: e,
+                      onStop: () => _onStop(e),
+                      onDelete: () => _onDelete(context, e),
+                      onContinue: () => _onContinueTimeTracking(e),
                     ))
                 .toList(),
           );
         },
       ),
       floatingActionButton: _buildFloatingActionButton(context),
+    );
+  }
+
+  void _onContinueTimeTracking(TimeTrackingEntry e) {
+    return _timeTrackingRepository.startTimeTracking(
+      Task(id: e.id, text: e.taskText),
     );
   }
 

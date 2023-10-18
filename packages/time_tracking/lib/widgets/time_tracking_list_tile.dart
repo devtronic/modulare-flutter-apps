@@ -3,17 +3,15 @@ import 'dart:async';
 import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
 import 'package:flutter/material.dart';
 
-import '../dto/time_tracking_list_entry.dart';
-
 class TimeTrackingListTile extends StatelessWidget {
-  final TimeTrackingListEntry listEntry;
+  final TimeTrackingEntry entry;
   final Function() onStop;
   final Function()? onContinue;
   final Function()? onDelete;
 
   const TimeTrackingListTile({
     super.key,
-    required this.listEntry,
+    required this.entry,
     required this.onStop,
     required this.onContinue,
     required this.onDelete,
@@ -22,22 +20,22 @@ class TimeTrackingListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(listEntry.task?.text ?? 'Unbekannt'),
-      subtitle: _buildSubtitle(listEntry.entry),
+      title: Text(entry.taskText),
+      subtitle: _buildSubtitle(entry),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (listEntry.entry.endedAt == null)
+          if (entry.endedAt == null)
             IconButton(
               onPressed: onStop,
               icon: const Icon(Icons.stop),
             ),
-          if (listEntry.entry.endedAt != null && onContinue != null)
+          if (entry.endedAt != null && onContinue != null)
             IconButton(
               onPressed: onContinue,
               icon: const Icon(Icons.play_arrow),
             ),
-          if (listEntry.entry.endedAt != null)
+          if (entry.endedAt != null)
             IconButton(
               onPressed: onDelete,
               icon: const Icon(Icons.delete),
