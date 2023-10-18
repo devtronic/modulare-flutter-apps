@@ -2,6 +2,8 @@ library ctwebdev2023_shared;
 
 export 'contracts/dto/task.dart';
 export 'contracts/dto/time_tracking_entry.dart';
+export 'contracts/events/create_task_event.dart';
+export 'contracts/events/edit_task_event.dart';
 export 'contracts/events/delete_task_event.dart';
 export 'contracts/events/task_created_event.dart';
 export 'contracts/events/task_deleted_event.dart';

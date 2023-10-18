@@ -1,0 +1,3 @@
+class CreateTaskEvent {
+  CreateTaskEvent();
+}

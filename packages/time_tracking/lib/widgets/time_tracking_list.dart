@@ -59,16 +59,16 @@ class TimeTrackingList extends StatelessWidget {
     return FloatingActionButton(
       child: const Icon(Icons.add),
       onPressed: () async {
-        var task = await selectTask(context);
-        if (task != null) {
-          _timeTrackingRepository.startTimeTracking(task);
+        var entry = await selectTask(context);
+        if (entry != null) {
+          _timeTrackingRepository.startTimeTracking(Task(id: entry.key, text: entry.value));
         }
       },
     );
   }
 
-  Future<Task?> selectTask(BuildContext context) {
-    return showDialog<Task>(
+  Future<MapEntry<int, String>?> selectTask(BuildContext context) {
+    return showDialog<MapEntry<int, String>?>(
       context: context,
       builder: (ctx) => _serviceProvider.resolve<SelectTaskDialog>(),
     );

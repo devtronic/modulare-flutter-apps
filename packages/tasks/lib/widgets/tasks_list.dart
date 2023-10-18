@@ -1,6 +1,7 @@
 import 'package:catalyst_builder/catalyst_builder.dart';
 import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
 import 'package:ctwebdev2023_tasks_public/ctwebdev2023_tasks_public.dart';
+import 'package:event_dispatcher_builder/event_dispatcher_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -12,12 +13,15 @@ import 'task_list_tile.dart';
 class TasksList extends StatelessWidget {
   final TaskRepository _tasksRepository;
   final TimeTrackingRepository _timeTrackingRepository;
+  final EventDispatcher _eventDispatcher;
 
   const TasksList({
     required TaskRepository taskRepository,
     required TimeTrackingRepository timeTrackingRepository,
+    required EventDispatcher eventDispatcher,
     super.key,
-  })  : _tasksRepository = taskRepository,
+  })  : _eventDispatcher = eventDispatcher,
+        _tasksRepository = taskRepository,
         _timeTrackingRepository = timeTrackingRepository;
 
   @override
@@ -84,27 +88,16 @@ class TasksList extends StatelessWidget {
 
   Widget _buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () => _showNewTaskDialog(context),
+      onPressed: () => _eventDispatcher.dispatch(CreateTaskEvent()),
       child: const Icon(Icons.add),
     );
   }
 
-  Future<void> _showNewTaskDialog(BuildContext context) async {
-    await _editTask(context, null);
+  void _editTask(BuildContext context, Task task)  {
+    _eventDispatcher.dispatch(EditTaskEvent(task));
   }
 
-  Future<void> _editTask(BuildContext context, Task? task) async {
-    var result = await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (ctx) => EditTaskDialog(task: task),
-    );
-    if (result is Task) {
-      _tasksRepository.save(result);
-    }
-  }
-
-  _deleteTask(BuildContext context, Task task) async {
+  void _deleteTask(BuildContext context, Task task) async {
     if (await _confirmDelete(context, task)) {
       _tasksRepository.delete(task);
     }

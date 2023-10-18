@@ -1,21 +1,28 @@
 import 'package:catalyst_builder/catalyst_builder.dart';
 import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
-import 'package:ctwebdev2023_tasks_public/ctwebdev2023_tasks_public.dart';
+import 'package:ctwebdev2023_time_tracking/service/task_meta_storage.dart';
+import 'package:event_dispatcher_builder/event_dispatcher_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 @Service(lifetime: ServiceLifetime.transient)
 class SelectTaskDialog extends StatelessWidget {
-  final TaskRepository taskRepository;
+  final TaskMetaStorage _taskMetaStorage;
+  final EventDispatcher _eventDispatcher;
 
   final FormGroup _formGroup = FormGroup({
-    'task': FormControl<Task>(
+    'taskId': FormControl<int>(
       value: null,
       validators: [Validators.required],
     ),
   });
 
-  SelectTaskDialog({required this.taskRepository, super.key});
+  SelectTaskDialog({
+    required TaskMetaStorage taskMetaStorage,
+    required EventDispatcher eventDispatcher,
+    super.key,
+  })  : _eventDispatcher = eventDispatcher,
+        _taskMetaStorage = taskMetaStorage;
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +44,9 @@ class SelectTaskDialog extends StatelessWidget {
     );
   }
 
-  StreamBuilder<List<Task>> _buildTasksDropdown() {
-    return StreamBuilder<List<Task>>(
-        stream: taskRepository.tasks$,
+  Widget _buildTasksDropdown() {
+    return StreamBuilder<Map<int, String>>(
+        stream: _taskMetaStorage.taskTextsById$,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Container();
@@ -48,32 +55,24 @@ class SelectTaskDialog extends StatelessWidget {
           var data = snapshot.data!;
           if (data.isEmpty) {
             return FilledButton(
-              onPressed: () async {
-                var todo = await showDialog(
-                  context: context,
-                  builder: (ctx) => EditTaskDialog(),
-                );
-                if (todo != null) {
-                  taskRepository.save(todo);
-                }
-              },
+              onPressed: () => _eventDispatcher.dispatch(CreateTaskEvent()),
               child: const Text('Todo anlegen'),
             );
           }
 
-          if (_formGroup.controls['task']?.value == null) {
-            _formGroup.controls['task']?.patchValue(data.first);
+          if (_formGroup.controls['taskId']?.value == null) {
+            _formGroup.controls['taskId']?.patchValue(data.entries.first.key);
           }
           return ReactiveDropdownField(
             decoration: const InputDecoration(labelText: 'Aufgabe'),
-            formControlName: 'task',
+            formControlName: 'taskId',
             validationMessages: {
               'required': (f) => 'Dieses Feld ist erforderlich'
             },
-            items: data
-                .map((e) => DropdownMenuItem<Task>(
-                      value: e,
-                      child: Text(e.text),
+            items: data.entries
+                .map((e) => DropdownMenuItem<int>(
+                      value: e.key,
+                      child: Text(e.value),
                     ))
                 .toList(),
           );
@@ -97,6 +96,7 @@ class SelectTaskDialog extends StatelessWidget {
     if (_formGroup.invalid) {
       return;
     }
-    Navigator.of(context).pop(_formGroup.value['task'] as Task);
+    Navigator.of(context).pop(
+        _taskMetaStorage.getEntryForId(_formGroup.value['taskId'] as int?));
   }
 }
