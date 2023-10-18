@@ -7,11 +7,7 @@ import 'widgets/tasks_list.dart';
 @Preload()
 @Service()
 class TasksModule {
-  TasksModule(
-      RouteRegistry registry,
-      TaskRepository taskRepository,
-      TimeTrackingRepository timeTrackingRepository,
-      ) {
+  TasksModule(RouteRegistry registry, ServiceProvider provider) {
     registry.add(
       RoutingEntry(
         priority: 1,
@@ -22,10 +18,7 @@ class TasksModule {
           selectedIcon: Icon(Icons.task_alt),
         ),
         canActivate: (_, route) => route == null || route == 'tasks',
-        builder: (ctx) => TasksList(
-          taskRepository: taskRepository,
-          timeTrackingRepository: timeTrackingRepository,
-        ),
+        builder: (ctx) => provider.resolve<TasksList>(),
       ),
     );
   }

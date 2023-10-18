@@ -1,3 +1,4 @@
+import 'package:catalyst_builder/catalyst_builder.dart';
 import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
 import 'package:ctwebdev2023_tasks_public/ctwebdev2023_tasks_public.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import '../dto/task_list_entry.dart';
 import 'delete_task_dialog.dart';
 import 'task_list_tile.dart';
 
+@Service(lifetime: ServiceLifetime.transient)
 class TasksList extends StatelessWidget {
   final TaskRepository _tasksRepository;
   final TimeTrackingRepository _timeTrackingRepository;

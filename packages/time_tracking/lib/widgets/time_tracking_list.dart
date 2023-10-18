@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:catalyst_builder/catalyst_builder.dart';
 import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -9,16 +10,20 @@ import 'delete_time_tracking_entry_dialog.dart';
 import 'select_task_dialog.dart';
 import 'time_tracking_list_tile.dart';
 
+@Service(lifetime: ServiceLifetime.transient)
 class TimeTrackingList extends StatelessWidget {
   final TimeTrackingRepository _timeTrackingRepository;
   final TaskRepository _taskRepository;
+  final ServiceProvider _serviceProvider;
 
   const TimeTrackingList({
     required TimeTrackingRepository timeTrackingRepository,
     required TaskRepository taskRepository,
+    required ServiceProvider serviceProvider,
     super.key,
   })  : _timeTrackingRepository = timeTrackingRepository,
-        _taskRepository = taskRepository;
+        _taskRepository = taskRepository,
+        _serviceProvider = serviceProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -86,9 +91,7 @@ class TimeTrackingList extends StatelessWidget {
   Future<Task?> selectTask(BuildContext context) {
     return showDialog<Task>(
       context: context,
-      builder: (ctx) => SelectTaskDialog(
-        taskRepository: _taskRepository,
-      ),
+      builder: (ctx) => _serviceProvider.resolve<SelectTaskDialog>(),
     );
   }
 

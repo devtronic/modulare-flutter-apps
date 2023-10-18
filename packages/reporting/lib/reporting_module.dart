@@ -5,11 +5,7 @@ import 'package:flutter/material.dart';
 @Preload()
 @Service()
 class ReportingModule {
-  ReportingModule(
-    RouteRegistry registry,
-    TaskRepository taskRepository,
-    TimeTrackingRepository timeTrackingRepository,
-  ) {
+  ReportingModule(RouteRegistry registry) {
     registry.add(
       RoutingEntry(
         priority: 3,

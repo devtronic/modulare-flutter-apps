@@ -9,8 +9,7 @@ import 'widgets/time_tracking_list.dart';
 class TimeTrackingModule {
   TimeTrackingModule(
     RouteRegistry registry,
-    TaskRepository taskRepository,
-    TimeTrackingRepository timeTrackingRepository,
+    ServiceProvider provider,
   ) {
     registry.add(
       RoutingEntry(
@@ -22,10 +21,7 @@ class TimeTrackingModule {
           selectedIcon: Icon(Icons.timer),
         ),
         canActivate: (_, route) => route == 'time-tracking',
-        builder: (ctx) => TimeTrackingList(
-          timeTrackingRepository: timeTrackingRepository,
-          taskRepository: taskRepository,
-        ),
+        builder: (ctx) => provider.resolve<TimeTrackingList>(),
       ),
     );
   }

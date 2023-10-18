@@ -1,9 +1,10 @@
+import 'package:catalyst_builder/catalyst_builder.dart';
 import 'package:ctwebdev2023_shared/ctwebdev2023_shared.dart';
 import 'package:ctwebdev2023_tasks_public/ctwebdev2023_tasks_public.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-
+@Service(lifetime: ServiceLifetime.transient)
 class SelectTaskDialog extends StatelessWidget {
   final TaskRepository taskRepository;
 
