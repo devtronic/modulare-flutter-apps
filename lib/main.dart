@@ -1,7 +1,9 @@
 import 'package:catalyst_builder/catalyst_builder.dart';
+import 'package:event_dispatcher_builder/event_dispatcher_builder.dart';
 import 'package:flutter/material.dart';
 
 import 'main.catalyst_builder.g.dart';
+import 'main.event_dispatcher_builder.g.dart';
 import 'navigation_outlet.dart';
 import 'service/modulith_route_generator.dart';
 
@@ -12,6 +14,14 @@ import 'service/modulith_route_generator.dart';
 export 'relative_deps_exports.dart';
 
 @GenerateServiceProvider()
+@GenerateEventDispatcher()
+@ServiceMap(services: {
+  // Register your event dispatcher inside the service container as a EventDispatcher
+  DefaultEventDispatcher: Service(
+    lifetime: ServiceLifetime.singleton,
+    exposeAs: EventDispatcher,
+  )
+})
 void main() {
   var serviceContainer = DefaultServiceProvider();
 
@@ -20,6 +30,8 @@ void main() {
   serviceContainer.boot();
 
   serviceContainer.resolve<ModulithRouteGenerator>().assemble();
+  serviceContainer.resolve<EventDispatcher>();
+
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,

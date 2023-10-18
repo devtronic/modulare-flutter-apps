@@ -25,6 +25,7 @@ dependencies:
     path: 'packages/reporting'
   build_runner: ^2.4.6
   catalyst_builder: ^3.5.0
+  event_dispatcher_builder: ^1.0.0
 
 dev_dependencies:
   flutter_test:

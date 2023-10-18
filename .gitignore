@@ -42,4 +42,4 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-/lib/main.catalyst_builder.g.dart
+/lib/*.g.dart

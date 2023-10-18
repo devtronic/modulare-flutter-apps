@@ -220,6 +220,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.3"
+  event_dispatcher_builder:
+    dependency: "direct main"
+    description:
+      name: event_dispatcher_builder
+      sha256: "38c5a7c17eb6e8d699b3d5db25c0e058df3fbdfff7389b974f7bfa5d2d91f7b2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   fake_async:
     dependency: transitive
     description:

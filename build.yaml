@@ -6,3 +6,7 @@ targets:
         options:
           providerClassName: 'DefaultServiceProvider'
           includePackageDependencies: true
+      event_dispatcher_builder|buildEventDispatcher:
+        options:
+          eventDispatcherClassName: 'DefaultEventDispatcher'
+          includePackageDependencies: true
