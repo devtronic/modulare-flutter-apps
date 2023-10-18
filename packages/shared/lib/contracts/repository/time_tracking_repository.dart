@@ -9,4 +9,8 @@ abstract class TimeTrackingRepository {
   void stopTimeTracking(TimeTrackingEntry entry);
 
   void delete(TimeTrackingEntry entry);
+
+  List<TimeTrackingEntry> findEntriesByTaskId(int taskId);
+
+  void update(TimeTrackingEntry entry);
 }

@@ -67,4 +67,20 @@ class InMemoryTimeTrackingRepository implements TimeTrackingRepository {
     newEntries.removeAt(index);
     _entries$.add(newEntries);
   }
+
+  @override
+  List<TimeTrackingEntry> findEntriesByTaskId(int taskId) {
+    return _entries$.value.where((e) => e.taskId == taskId).toList();
+  }
+
+  @override
+  void update(TimeTrackingEntry entry) {
+    var newEntries = [..._entries$.value];
+    var index = newEntries.indexWhere((e) => e.id == entry.id);
+    if (index < 0) {
+      return;
+    }
+    newEntries[index] = entry;
+    _entries$.add(newEntries);
+  }
 }
